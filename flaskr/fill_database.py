@@ -1,8 +1,10 @@
 import json
 from flask import jsonify
 
-from flaskr import db#, ma
-from flaskr.models_db import Films, Genres, Directors, Users, films_genres#, DirectorsSchema
+
+from flaskr import db
+from flaskr.models_db import Films, Genres, Directors, Users, films_genres
+
 
 
 def fill_directors(file_name):
@@ -15,47 +17,6 @@ def fill_directors(file_name):
             db.session.commit()
         except Exception as e:
             print(e, 'except')
-
-# class UserSchema(ma.SQLAlchemyAutoSchema):
-#     class Meta:
-#         user = Users
-
-#user_schema = UserSchema()
-
-
-# def fill_users_schema(file_name):
-#     with open(file_name, "r") as read_file:
-#         data = json.load(read_file)
-#         user_schema = UserSchema()
-#         users = data["users"]
-#         user_1 = Users(
-#                     user_id=users[0]['user_id'],
-#                     user_name=users[0]['user_name'],
-#                     user_status=users[0]['user_status'],
-#                     user_password=users[0]['users_password'],
-#                     user_email=users[0]['user_email']
-#                 )
-#         #Users(user_schema.loads(users[0]))
-#         print((user_schema.jsonify(user_1)))#jsonify(user_schema.load(user_1)))
-#         #users_added = user_schema.dump(users[0])
-#         #return users_added
-#         # try:
-#         #     for i in users:
-#         #         db.session.add(Users(
-#         #             user_id=i['user_id'],
-#         #             user_name=i['user_name'],
-#         #             user_status=i['user_status'],
-#         #             user_password=i['users_password'],
-#         #             user_email=i['user_email']
-#         #         ))
-#         #         users_added.append({i['user_id']: i['user_name']})
-#             #db.session.commit()
-#             # return users_added
-#         # except Exception as e:
-#         #     print(e, 'except')
-#
-#
-# print(fill_users_schema("data_to_populate_db.json"))
 
 
 def fill_users(file_name):

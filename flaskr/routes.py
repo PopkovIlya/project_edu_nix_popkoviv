@@ -1,9 +1,11 @@
 from flask import request, jsonify, make_response
 from flask_restx import Resource
 from flaskr import api, app
+
 from flaskr import db
 from flaskr.models_db import Films, Genres, Directors, Users, films_genres 
 from flask_login import login_required, current_user, login_user, logout_user
+
 
 
 @api.route('/login/')
