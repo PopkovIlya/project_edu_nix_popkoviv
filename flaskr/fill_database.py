@@ -1,6 +1,7 @@
 import json
+from flask import jsonify
 
-from flaskr import db, ma
+from flaskr import db#, ma
 from flaskr.models_db import Films, Genres, Directors, Users, films_genres#, DirectorsSchema
 
 
@@ -15,6 +16,47 @@ def fill_directors(file_name):
         except Exception as e:
             print(e, 'except')
 
+# class UserSchema(ma.SQLAlchemyAutoSchema):
+#     class Meta:
+#         user = Users
+
+#user_schema = UserSchema()
+
+
+# def fill_users_schema(file_name):
+#     with open(file_name, "r") as read_file:
+#         data = json.load(read_file)
+#         user_schema = UserSchema()
+#         users = data["users"]
+#         user_1 = Users(
+#                     user_id=users[0]['user_id'],
+#                     user_name=users[0]['user_name'],
+#                     user_status=users[0]['user_status'],
+#                     user_password=users[0]['users_password'],
+#                     user_email=users[0]['user_email']
+#                 )
+#         #Users(user_schema.loads(users[0]))
+#         print((user_schema.jsonify(user_1)))#jsonify(user_schema.load(user_1)))
+#         #users_added = user_schema.dump(users[0])
+#         #return users_added
+#         # try:
+#         #     for i in users:
+#         #         db.session.add(Users(
+#         #             user_id=i['user_id'],
+#         #             user_name=i['user_name'],
+#         #             user_status=i['user_status'],
+#         #             user_password=i['users_password'],
+#         #             user_email=i['user_email']
+#         #         ))
+#         #         users_added.append({i['user_id']: i['user_name']})
+#             #db.session.commit()
+#             # return users_added
+#         # except Exception as e:
+#         #     print(e, 'except')
+#
+#
+# print(fill_users_schema("data_to_populate_db.json"))
+
 
 def fill_users(file_name):
     with open(file_name, "r") as read_file:
@@ -23,20 +65,18 @@ def fill_users(file_name):
         users_added = []
         try:
             for i in users:
-                db.session.add(Users(
-                    user_id=i['user_id'],
-                    user_name=i['user_name'],
-                    user_status=i['user_status'],
-                    user_password=i['users_password'],
-                    user_email=i['user_email']
-                ))
+                new_user = Users()
+                new_user.id = i['user_id']
+                new_user.user_name = i['user_name']
+                new_user.is_admin = i['is_admin']
+                new_user.user_email = i['user_email']
+                new_user.set_password(i['users_password'])
+                db.session.add(new_user)
                 users_added.append({i['user_id']: i['user_name']})
             db.session.commit()
             return users_added
         except Exception as e:
-            print(e, 'except')
-
-
+            print(e, 'fill_users except')
 
 
 def fill_films(file_name):
@@ -57,7 +97,7 @@ def fill_films(file_name):
                     poster=current_film_data['poster']
                 )
                 for j in current_film_data["genres"]:
-                    genre_1 = Genres.query.filter_by(genre_id=j).first()  #get(j)
+                    genre_1 = Genres.query.filter_by(genre_id=j).first()
                     film_adds.genres.append(genre_1)
                     db.session.add(film_adds)
                 films_added.append({current_film_data['film_id']: current_film_data['title']})
@@ -81,7 +121,6 @@ def fill_genres(file_name):
         except Exception as e:
             print(e, 'except')
 
-# print(fill_genres("data_to_populate_db.json"))
 
 def del_table_data(model_data):
     all_data = model_data.query.all()
@@ -125,7 +164,7 @@ def fill_db(file_name):
 
 
 if __name__ == '__main__':
-    # print(fill_db("data_to_populate_db.json"))
-    print(del_all_data())
-#     # print(del_entity_by_id(Films, 1))
+    print(fill_db("data_to_populate_db.json"))
+    # print(del_all_data())
+# #     # print(del_entity_by_id(Films, 1))
 

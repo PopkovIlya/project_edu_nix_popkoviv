@@ -9,6 +9,7 @@ flask-restx = "*"
 flask-migrate = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+flask-login = "*"
 
 [dev-packages]
 
