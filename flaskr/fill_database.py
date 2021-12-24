@@ -1,8 +1,10 @@
 import json
 from flask import jsonify
 
+
 from flaskr import db
 from flaskr.models_db import Films, Genres, Directors, Users, films_genres
+
 
 
 def fill_directors(file_name):
